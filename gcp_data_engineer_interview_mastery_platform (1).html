@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GCP Data Engineer 112-Day Interview Mastery Platform</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            },
+            gcp: {
+              blue: '#4285F4',
+              red: '#EA4335',
+              yellow: '#FBBC05',
+              green: '#34A853',
+              dark: '#0a0e1a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #070a12;
+      color: #f1f5f9;
+      overflow-x: hidden;
+    }
+    code, pre {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b0f19;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    .active-day-pill {
+      background: linear-gradient(135deg, #4f46e5 0%, #2563eb 100%);
+      box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.45);
+      border-color: #818cf8;
+    }
+    .card-glass {
+      background: rgba(13, 19, 33, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .card-glass:hover {
+      border-color: rgba(99, 102, 241, 0.35);
+    }
+    .answer-blur {
+      filter: blur(5px);
+      user-select: none;
+      transition: filter 0.25s ease-in-out;
+    }
+    .answer-blur:hover, .answer-blur.unblurred {
+      filter: blur(0px);
+      user-select: auto;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#070a12] text-slate-100">
+
+  <header class="sticky top-0 z-50 border-b border-slate-800/80 bg-[#090e1b]/95 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-600 to-sky-400 flex items-center justify-center text-white font-bold shadow-lg shadow-indigo-500/30">
+          <i class="fa-solid fa-cloud-bolt text-lg"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="font-black text-lg tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">GCP Data Engineer</span>
+            <span class="text-[11px] px-2 py-0.5 rounded-full font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">112-Day Blueprint</span>
+          </div>
+          <p class="text-[11px] text-slate-400 hidden sm:block">5 Questions Daily • Engine Mechanics • Real-World Analogies • Out-Of-The-Box Edge Cases</p>
+        </div>
+      </div>
+
+      <!-- Quick Metrics and Action Controls -->
+      <div class="flex items-center space-x-2.5 sm:space-x-3">
+        <div class="hidden lg:flex items-center space-x-4 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs">
+          <div class="flex items-center space-x-1.5 text-slate-300">
+            <i class="fa-solid fa-fire text-amber-500"></i>
+            <span>Streak: <strong id="streakCount" class="text-amber-400">14 Days</strong></span>
+          </div>
+          <div class="h-3 w-px bg-slate-700"></div>
+          <div class="flex items-center space-x-1.5 text-slate-300">
+            <i class="fa-solid fa-circle-check text-emerald-500"></i>
+            <span>Mastered: <strong id="masteredCount" class="text-emerald-400">0</strong> / 560</span>
+          </div>
+        </div>
+
+        <button id="crossCloudModalBtn" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-sky-600/25 hover:bg-sky-600/40 text-sky-200 border border-sky-500/30 text-xs font-semibold transition" title="GCP vs AWS vs Azure Architecture Matrix">
+          <i class="fa-solid fa-cloud-arrow-up text-sky-400"></i>
+          <span class="hidden md:inline">Cross-Cloud Hub</span>
+        </button>
+
+        <button id="randomDrillBtn" class="px-3 py-1.5 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/30 text-xs font-semibold flex items-center space-x-1.5 transition" title="Test a random question under pressure">
+          <i class="fa-solid fa-dice text-purple-400"></i>
+          <span class="hidden md:inline">Random Drill</span>
+        </button>
+
+        <button id="openTimerBtn" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-indigo-600/25 hover:bg-indigo-600/40 text-indigo-200 border border-indigo-500/30 text-xs font-semibold transition" title="Practice 2-Minute Interview Speech">
+          <i class="fa-solid fa-stopwatch text-indigo-400"></i>
+          <span class="hidden sm:inline">Mock Pitch Timer</span>
+        </button>
+
+        <button id="syllabusModalBtn" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs border border-slate-700 transition">
+          <i class="fa-solid fa-map"></i>
+          <span>Curriculum</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    
+    <!-- Top Filter Bar & Months Tabs -->
+    <div class="space-y-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <!-- Month Selection Tabs -->
+        <div class="flex flex-wrap items-center gap-2" id="monthTabsContainer">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <!-- Search Bar and Flashcard Toggle -->
+        <div class="flex items-center space-x-3 w-full md:w-auto">
+          <div class="relative flex-1 md:w-72">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+            <input 
+              type="text" 
+              id="globalSearchInput" 
+              placeholder="Search concepts (e.g. Broadcast join, SCD-2, Slot skew)..." 
+              class="w-full bg-slate-900 border border-slate-800 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 transition placeholder-slate-500"
+            >
+          </div>
+          
+          <button id="flashcardModeToggle" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs text-slate-300 flex items-center space-x-2 transition" title="Toggle Answer Blur for active self-testing">
+            <i class="fa-solid fa-brain text-purple-400"></i>
+            <span class="hidden sm:inline">Recall Mode</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/60 p-3 rounded-2xl border border-slate-800/80">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center space-x-2">
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400" id="currentWeekTitle">Week 1: SQL + Python + Data Engineering Fundamentals</span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full" id="dayRangeBadge">Days 1 - 7</span>
+          </div>
+          <div class="flex items-center space-x-2 text-xs">
+            <!-- Direct Day Jump input box -->
+            <div class="flex items-center space-x-1 bg-slate-950 border border-slate-800 rounded-lg px-2 py-1">
+              <span class="text-[10px] text-slate-500 font-mono">Day:</span>
+              <input type="number" id="jumpDayInput" min="1" max="112" placeholder="1-112" class="w-12 bg-transparent text-xs text-indigo-300 focus:outline-none font-mono text-center" aria-label="Jump to day">
+              <button id="jumpDayBtn" class="px-1.5 py-0.5 rounded bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white text-[10px] font-semibold transition" title="Jump to Day">Go</button>
+            </div>
+            <div class="h-4 w-px bg-slate-800 hidden sm:block"></div>
+            <button id="prevDayBtn" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition" title="Previous Day"><i class="fa-solid fa-chevron-left"></i></button>
+            <span class="font-mono text-indigo-400 font-bold px-1" id="currentDayBadge">Day 1</span>
+            <button id="nextDayBtn" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition" title="Next Day"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+
+        <!-- Horizontal scrollable Day selector pills -->
+        <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 pt-1" id="dayPillsContainer">
+          <!-- Day pills generated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-slate-800 p-5">
+      <div class="absolute -right-10 -top-10 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
+        <div class="space-y-1">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30" id="heroPhaseLabel">Month 1 • Foundation</span>
+            <span class="text-slate-400 text-xs" id="heroFocusSubtext">SQL Joins • ETL vs ELT • Python Primitives • BigQuery Specs • Airflow DAGs</span>
+          </div>
+          <h1 class="text-xl sm:text-2xl font-black text-white" id="heroDayHeading">Day 1: Architectural Core & Engine Fundamentals</h1>
+          <p class="text-xs sm:text-sm text-slate-300 max-w-3xl" id="heroDayGoal">
+            Master the foundational memory models, engine execution semantics, and distributed storage principles that form the basis for 80% of data pipeline designs.
+          </p>
+        </div>
+
+        <div class="flex items-center space-x-3">
+          <button id="markAllMasteredBtn" class="px-3.5 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 text-xs font-semibold transition flex items-center space-x-2">
+            <i class="fa-solid fa-check-double"></i>
+            <span>Mark Day Complete</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center space-x-2 overflow-x-auto pb-1 text-xs text-slate-400" id="categoryFilterBar">
+      <span class="text-[11px] font-medium text-slate-500 uppercase tracking-wider mr-1">Filter:</span>
+      <button class="cat-filter-btn active px-3 py-1 rounded-lg bg-indigo-600 text-white font-medium" data-cat="all">All (5)</button>
+      <button class="cat-filter-btn px-3 py-1 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300" data-cat="Q1 — SQL / Python / Modeling">Q1: SQL / Modeling</button>
+      <button class="cat-filter-btn px-3 py-1 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300" data-cat="Q2 — Core DE / dbt">Q2: Core DE & dbt</button>
+      <button class="cat-filter-btn px-3 py-1 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300" data-cat="Q3 — Spark / Containers (Docker)">Q3: Spark & Docker</button>
+      <button class="cat-filter-btn px-3 py-1 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300" data-cat="Q4 — GCP & Cross-Cloud (AWS/Azure)">Q4: GCP & Cross-Cloud</button>
+      <button class="cat-filter-btn px-3 py-1 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300" data-cat="Q5 — Airflow / Terraform / CI-CD">Q5: Orchestration & IaC</button>
+    </div>
+
+    <div class="space-y-6" id="questionsContainer">
+      <!-- Injected dynamically by JavaScript -->
+    </div>
+
+    <div class="flex items-center justify-between py-6 border-t border-slate-800/80">
+      <button id="footerPrevBtn" class="flex items-center space-x-2 px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-indigo-500/50 text-slate-300 text-xs font-semibold transition">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Previous Day</span>
+      </button>
+
+      <div class="text-xs text-slate-400 font-mono">
+        Mastery: <span class="text-indigo-400 font-bold" id="progressPercentage">0%</span> of 560 Questions
+      </div>
+
+      <button id="footerNextBtn" class="flex items-center space-x-2 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">
+        <span>Next Day</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </main>
+
+  <!-- 2-Minute Speech Pitch Timer Modal -->
+  <div id="timerModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-5 relative shadow-2xl">
+      <button id="closeTimerModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-white transition">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="flex items-center space-x-3">
+        <div class="h-10 w-10 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center text-lg">
+          <i class="fa-solid fa-stopwatch"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-white text-base">2-Minute Pitch Drill</h3>
+          <p class="text-xs text-slate-400">Can you explain this architecture without stuttering?</p>
+        </div>
+      </div>
+
+      <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800/80 text-center space-y-2">
+        <div class="text-5xl font-mono font-black text-indigo-400 tracking-wider" id="timerDisplay">02:00</div>
+        <p class="text-[11px] uppercase tracking-widest text-slate-400 font-semibold" id="timerStatusLabel">Ready to Speak</p>
+      </div>
+
+      <div class="p-3.5 rounded-xl bg-slate-800/50 border border-slate-700/50 text-xs text-slate-300 space-y-1">
+        <span class="font-bold text-amber-400"><i class="fa-solid fa-bolt mr-1"></i> The Winning Interview Pitch Formula:</span>
+        <ol class="list-decimal list-inside space-y-1 text-[11px] text-slate-300 pt-1">
+          <li><strong>00:00 - 00:30:</strong> Crisp Definition (Zero filler, immediate clarity).</li>
+          <li><strong>00:30 - 01:15:</strong> Under-the-hood engine mechanics (Memory, Network, Disk).</li>
+          <li><strong>01:15 - 01:45:</strong> 10-second production example with real metrics.</li>
+          <li><strong>01:45 - 02:00:</strong> Call out the edge-case trap before the interviewer asks!</li>
+        </ol>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <button id="startTimerBtn" class="flex-1 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition shadow-lg shadow-indigo-600/30">
+          Start Timer
+        </button>
+        <button id="resetTimerBtn" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition">
+          Reset
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full Curriculum Syllabus Modal -->
+  <div id="syllabusModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-4xl w-full max-h-[85vh] flex flex-col p-6 relative shadow-2xl">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+        <div>
+          <h3 class="font-bold text-white text-lg">112-Day Master Curriculum Syllabus</h3>
+          <p class="text-xs text-slate-400">Click any day to jump directly into the interview drill</p>
+        </div>
+        <button id="closeSyllabusModalBtn" class="text-slate-400 hover:text-white transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="overflow-y-auto py-4 space-y-4 pr-1 text-xs" id="syllabusModalContent">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Cross-Cloud Comparative Hub Modal: GCP vs AWS vs Azure -->
+  <div id="crossCloudModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="bg-[#0b1120] border border-slate-700/80 rounded-2xl max-w-5xl w-full max-h-[88vh] flex flex-col p-6 relative shadow-2xl overflow-hidden">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+        <div class="space-y-0.5">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-sky-500/20 text-sky-300 border border-sky-500/30">
+              Enterprise Rosetta Stone
+            </span>
+            <h3 class="font-black text-white text-lg sm:text-xl">Cross-Cloud Data Platform Comparison</h3>
+          </div>
+          <p class="text-xs text-slate-400">Compare GCP, AWS, and Azure equivalents, architectural differences, and when to pick each in technical interviews.</p>
+        </div>
+        <button id="closeCrossCloudModalBtn" class="text-slate-400 hover:text-white p-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Search & Category Filters for Matrix -->
+      <div class="flex flex-wrap items-center justify-between gap-3 pt-4 pb-2">
+        <div class="flex flex-wrap gap-1.5 text-xs" id="matrixFilterPills">
+          <button class="matrix-filter active px-2.5 py-1 rounded-lg bg-sky-600 text-white font-medium" data-service="all">All Services</button>
+          <button class="matrix-filter px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700" data-service="modeling">dbt vs Dataform vs ETL</button>
+          <button class="matrix-filter px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700" data-service="warehouse">Warehousing</button>
+          <button class="matrix-filter px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700" data-service="compute">Spark / Compute</button>
+          <button class="matrix-filter px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700" data-service="orchestration">Orchestration & CI/CD</button>
+          <button class="matrix-filter px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-slate-700" data-service="streaming">Streaming & Storage</button>
+        </div>
+        <input 
+          type="text" 
+          id="matrixSearchInput" 
+          placeholder="Filter (e.g., Dataform, dbt, Redshift, Synapse)..." 
+          class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-sky-500 w-full sm:w-60"
+        >
+      </div>
+
+      <!-- Matrix Content Body -->
+      <div class="overflow-y-auto py-3 space-y-4 pr-1 text-xs" id="crossCloudCardsContainer">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition duration-300 px-4 py-3 rounded-xl bg-slate-900 border border-indigo-500 text-slate-100 text-xs flex items-center space-x-2 shadow-2xl pointer-events-none">
+    <i class="fa-solid fa-circle-check text-emerald-400" id="toastIcon"></i>
+    <span id="toastMessage">Action completed!</span>
+  </div>
+
+  <script>
+
+    const CROSS_CLOUD_MATRIX = [
+      {
+        category: "modeling",
+        title: "SQL Transformation & Semantic Modeling (Dataform vs. dbt vs. AWS Glue vs. Azure Data Factory)",
+        gcp: {
+          name: "Dataform & dbt on BigQuery",
+          desc: "Dataform is GCP's native in-warehouse SQLX transformation framework (acquired by Google). Serverless compiler, built directly into BigQuery Studio with native Git integration and zero infrastructure cost. dbt Core is widely used via `dbt-bigquery` adapter."
+        },
+        aws: {
+          name: "AWS Glue Studio / dbt on Redshift / EMR",
+          desc: "AWS has no direct 1:1 managed SQLX compiler like Dataform. AWS teams run dbt Core on AWS ECS/Fargate, MWAA, or use AWS Glue Studio (PySpark visual transformation) and Amazon Redshift Stored Procedures."
+        },
+        azure: {
+          name: "Azure Data Factory (ADF) Mapping Data Flows / Fabric Data Pipelines / dbt",
+          desc: "ADF Mapping Data Flows visually translate UI transformations into Spark code under the hood. For SQL-first transformations, Azure engineers use dbt-synapse or dbt-fabric running on Azure Container Instances (ACI) or GitHub Actions."
+        },
+        differences: "Dataform uses `.sqlx` files combining SQL with JavaScript functions and dependencies, running strictly inside BigQuery. dbt is multi-cloud open-source, uses Jinja + SQL + YAML, and supports cross-warehouse migrations. AWS Glue is Spark-centric (higher cost for simple SQL). ADF is low-code GUI focused.",
+        bestForWhat: "Pick Dataform if you are 100% on GCP BigQuery and want zero cost for the orchestrator/compiler. Pick dbt if you require multi-cloud portable models (Snowflake, BigQuery, Databricks), advanced packages (dbt-utils, dbt-expectations), or complex SCD-2 snapshots.",
+        interviewTip: "Interview Question: 'Why use dbt over Dataform in an enterprise?' Answer: dbt has massive open-source community support, rich semantic layer packages, works across all clouds (prevents vendor lock-in), and integrates seamlessly with CI/CD GitHub Actions for automated Slim CI testing!"
+      },
+      {
+        category: "warehouse",
+        title: "Cloud Data Warehousing (BigQuery vs. Amazon Redshift vs. Snowflake vs. Azure Synapse / Fabric)",
+        gcp: {
+          name: "Google BigQuery",
+          desc: "Fully serverless, two-tier architecture (Colossus distributed file storage + Dremel dynamic compute tree linked over Jupiter 1-Petabit network). Pay-per-query (on-demand $6.25/TB scanned) or dedicated autoscaling capacity slots (Editions: Standard, Enterprise, Enterprise Plus)."
+        },
+        aws: {
+          name: "Amazon Redshift (Provisioned & Serverless)",
+          desc: "Cluster-based MPP database derived from ParAccel/Postgres. Modern deployments use RA3 nodes (managed storage decoupled from compute) or Redshift Serverless (billed in Redshift Processing Units / RPUs)."
+        },
+        azure: {
+          name: "Azure Synapse Analytics & Microsoft Fabric (OneLake)",
+          desc: "Synapse Dedicated SQL Pools (provisioned DWUs) or Serverless SQL. Microsoft Fabric introduces OneLake, centralizing storage on open Delta Lake format with unified Synapse compute."
+        },
+        differences: "BigQuery is true serverless from day one (zero cluster configuration, instant slot autoscaling). Redshift RA3 requires sizing clusters or setting RPU limits, and handles concurrency via WLM queues. Snowflake provides multi-cluster elastic compute engines per department. Fabric standardizes everything on Delta Lake parquet.",
+        bestForWhat: "BigQuery is best for volatile unpredictable analytics workloads and streaming inserts. Redshift is best for consistent 24/7 enterprise workloads tightly coupled with AWS IAM and S3. Snowflake is best for multi-cloud data sharing and clean rooms. Fabric is best for native PowerBI direct-lake integration.",
+        interviewTip: "Senior Edge Case: Redshift requires periodic `VACUUM` and `ANALYZE` to reclaim dead space and update sort key statistics. BigQuery requires zero maintenance operations because Capacitor files are immutable and auto-clustered!"
+      },
+      {
+        category: "compute",
+        title: "Managed Spark & Distributed Compute (Dataproc vs. Amazon EMR vs. Azure HDInsight / Databricks)",
+        gcp: {
+          name: "Google Cloud Dataproc & Dataproc Serverless",
+          desc: "Fast cluster spin-up (~90 seconds) running vanilla Apache Spark, Hadoop, and Presto. Dataproc Serverless allows executing PySpark batch jobs directly without provisioning GCE virtual machines."
+        },
+        aws: {
+          name: "Amazon EMR (Elastic MapReduce) & EMR Serverless",
+          desc: "Highly optimized AWS-tuned Spark runtime (up to 3x faster than open source). Integrates with EC2 Spot instances, EKS containers, and EMR Serverless."
+        },
+        azure: {
+          name: "Azure Databricks & Azure Synapse Spark",
+          desc: "First-party Databricks integration (jointly engineered with Microsoft). Fast Photon C++ vectorized engine with native Delta Lake optimization."
+        },
+        differences: "Dataproc clusters boot 3-4x faster than standard EMR EC2 nodes and natively write to GCS (`gs://`) without HDFS replication costs. AWS EMR has the most mature EC2 Spot fleet integration. Azure Databricks offers the best enterprise collaborative notebook and Unity Catalog governance experience.",
+        bestForWhat: "Dataproc Serverless for quick ephemeral PySpark pipelines. EMR on EC2 Spot for huge petabyte batch jobs with maximum cost-discounting. Azure Databricks for collaborative ML/AI and lakehouse production engineering.",
+        interviewTip: "Dataproc Serverless charges per DCU (Dataproc Compute Unit) per second. There are zero master node management overheads, eliminating cluster idle costs!"
+      },
+      {
+        category: "orchestration",
+        title: "Workflow Orchestration & CI/CD (Cloud Composer vs. AWS MWAA vs. Azure Data Factory)",
+        gcp: {
+          name: "Cloud Composer (Airflow) + Cloud Build / GitHub Actions",
+          desc: "Managed Apache Airflow built on top of Google Kubernetes Engine (GKE). Composer 2/3 features autoscaling workers, Celery executor, and Secret Manager integration. Automated with Cloud Build or GitHub Actions."
+        },
+        aws: {
+          name: "Amazon MWAA (Managed Workflows for Apache Airflow) + CodePipeline",
+          desc: "Managed Airflow running on AWS Fargate/ECS. Synchronizes DAGs via Amazon S3 bucket polling. Integrates with AWS KMS and CloudWatch."
+        },
+        azure: {
+          name: "Azure Data Factory (ADF) / Azure Managed Airflow",
+          desc: "ADF is primarily a low-code drag-and-drop orchestrator with built-in 90+ data connectors. For Airflow lovers, Azure offers Managed Airflow instances inside ADF."
+        },
+        differences: "Cloud Composer provides root GKE cluster visibility, fast DAG loading via Cloud Storage FUSE mounts, and seamless GCP IAM workload identity. MWAA syncs DAGs through S3 (introducing up to 1-2 min sync delays) and doesn't offer direct GKE/Kubernetes pod operator customization as easily as Composer.",
+        bestForWhat: "Cloud Composer / MWAA for programmatic, code-first Python pipelines with dynamic dependencies. ADF for enterprise organizations migrating legacy SSIS packages or preferring visual canvas workflows.",
+        interviewTip: "In modern CI/CD: Never push raw DAGs directly to Composer's GCS bucket! A GitHub Action pipeline must first run `pytest`, `flake8`, and a DAG integrity parse test (`airflow dags list-import-errors`) before syncing files!"
+      },
+      {
+        category: "streaming",
+        title: "Cloud Object Storage & Ingestion (GCS + Pub/Sub vs. S3 + Kinesis vs. ADLS Gen2 + Event Hubs)",
+        gcp: {
+          name: "Google Cloud Storage (GCS) + Cloud Pub/Sub",
+          desc: "GCS is a flat namespace with strong global consistency. Pub/Sub is global by default (no partition/shard sizing needed) and offers Direct BigQuery Subscriptions without writing code."
+        },
+        aws: {
+          name: "Amazon S3 + Amazon Kinesis Data Streams",
+          desc: "S3 offers global object storage with multiple tiers (Standard, Glacier, S3 Express One Zone). Kinesis requires managing individual shards (1MB/s write, 2MB/s read per shard) or using on-demand mode."
+        },
+        azure: {
+          name: "Azure Data Lake Storage Gen2 (ADLS) + Azure Event Hubs",
+          desc: "ADLS Gen2 features a true Hierarchical Namespace (HNS), making folder renames and POSIX directory deletions atomic $O(1)$ metadata operations. Event Hubs provides Kafka-compatible streaming."
+        },
+        differences: "GCS and S3 are flat key namespaces where folders are pseudo-prefixes. ADLS Gen2 actually has true file-system directories, making massive data lake file moves instant! Cloud Pub/Sub automatically auto-scales without shard planning, whereas Kinesis requires shard capacity planning.",
+        bestForWhat: "Pub/Sub for serverless global streaming with zero ops. AWS S3 for the widest third-party software compatibility and S3 Express sub-10ms latency. ADLS Gen2 for big data lakehouses where atomic folder renames speed up Spark commit phases.",
+        interviewTip: "Interview Question: 'Why does Spark write faster to ADLS Gen2 than S3 or GCS?' Answer: Because Spark's FileOutputCommitter relies on renaming task directories to the final table destination. On ADLS Gen2, directory rename is an instant $O(1)$ atomic pointer swap, whereas on S3/GCS it is a slow $O(N)$ copy-and-delete!"
+      }
+    ];
+
+    const CURRICULUM_DATA = {
+      // DAY 1
+      1: {
+        week: 1,
+        weekTitle: "Week 1: SQL + Python + Data Engineering Fundamentals",
+        month: 1,
+        monthTitle: "Month 1 — Foundation",
+        dayTitle: "Day 1: Architectural Core & Engine Fundamentals",
+        goal: "Master the foundational memory models, engine execution semantics, and distributed storage principles that form the basis for 80% of data pipeline designs.",
+        questions: [
+          {
+            id: "d1_q1",
+            category: "Q1 — SQL / Python / Modeling",
+            title: "INNER JOIN vs. LEFT JOIN: Engine Execution & The NULL Pitfall",
+            prompt: "What is the physical execution difference between an INNER JOIN and a LEFT JOIN, and what is the single biggest trap when filtering on the right-side table?",
+            pitch: "An INNER JOIN returns only rows where join keys evaluate to TRUE in both relations. A LEFT JOIN returns all rows from the left relation, padding right-side columns with NULL if no match exists. The classic senior interview trap is placing a WHERE filter on a right-table column (e.g., `WHERE right.status = 'ACTIVE'`). This silently converts the LEFT JOIN into an INNER JOIN because NULL evaluated against any equality predicate returns UNKNOWN/FALSE, dropping unmatched left rows.",
+            engineMechanics: "In distributed query engines (BigQuery Dremel, Spark Catalyst), an INNER JOIN allows aggressive filter pushdown (predicate pushdown) to both tables before shuffling. In a LEFT JOIN, predicates on the right table can only be pushed down if placed directly in the ON clause, NOT the WHERE clause. Furthermore, if the join keys have data skew (many NULLs or identical keys), a Hash Join will bottleneck on a single executor worker receiving all skewed keys.",
+            realWorldAnalogy: "An airport flight manifest: LEFT JOIN is all ticketed passengers boarding the plane; even if their luggage (right table) is missing, they still board with 'Luggage = NULL'. If the gate agent suddenly says 'Only board passengers whose luggage is tagged VIP (WHERE luggage.tag = 'VIP')', passengers with missing bags get denied boarding—accidentally turning it into an INNER JOIN!",
+            codeSnippet: `-- THE SENIOR TRAP:
+-- WRONG: WHERE clause converts LEFT JOIN to INNER JOIN!
+SELECT o.order_id, o.customer_id, p.payment_status
+FROM orders o
+LEFT JOIN payments p ON o.order_id = p.order_id
+WHERE p.payment_status = 'COMPLETED'; -- Filters out NULLs! Drops orders with pending payments.
+
+-- CORRECT: Put the right-side filter in the ON clause to preserve left rows
+SELECT o.order_id, o.customer_id, p.payment_status
+FROM orders o
+LEFT JOIN payments p ON o.order_id = p.order_id 
+                    AND p.payment_status = 'COMPLETED';`,
+            outOfTheBoxTwist: "Senior Follow-up: 'If you join Table A (10 rows, all NULL keys) to Table B (10 rows, all NULL keys) on A.id = B.id, how many rows do you get?' Answer: ZERO! In standard SQL, NULL = NULL evaluates to UNKNOWN. To match NULLs, you must explicitly use `A.id IS NOT DISTINCT FROM B.id` or `COALESCE(A.id, 'dummy')`.",
+            memoryRule: "Mnemonic: 'Filter in WHERE kills the LEFT; Filter in ON keeps 'em ON!'"
+          },
+          {
+            id: "d1_q2",
+            category: "Q2 — Core DE / dbt",
+            title: "ETL vs. ELT & The Rise of dbt / Dataform in Cloud Warehouses",
+            prompt: "Explain the architectural shift from ETL to ELT. Where do dbt and GCP Dataform sit in this paradigm, and when would an enterprise deliberately choose ETL over ELT?",
+            pitch: "ETL transforms data outside the warehouse using compute clusters (Spark/Dataproc) before loading. ELT loads raw, immutable data directly into cloud storage/warehouses (GCS/BigQuery) and transforms in-place using SQL via dbt or Dataform. ELT dominates modern GCP because BigQuery separates compute from storage, allowing thousands of Dremel slots to execute transformations in parallel without moving data across networks.",
+            engineMechanics: "dbt and Dataform do not process data themselves; they act as orchestrators and SQL compilers. They translate Jinja/SQLX into pushdown DDL/DML statements (`CREATE OR REPLACE TABLE AS SELECT`, `MERGE`), leveraging BigQuery's vectorized Capacitor engine. ETL is preferred only when: 1) Strict PII/GDPR requires anonymization before disk write, or 2) Massive streaming noise must be reduced 99% before landing.",
+            realWorldAnalogy: "ETL is washing, peeling, and dicing vegetables at the farm before delivery. ELT is delivering farm-fresh produce directly to your industrial walk-in refrigerator (BigQuery Bronze), and using your commercial kitchen stoves (dbt/BigQuery slots) to cook whatever dish guests order on demand.",
+            codeSnippet: `-- dbt model pattern (models/marts/fct_orders.sql)
+{{ config(
+    materialized='incremental',
+    unique_key='order_id',
+    partition_by={"field": "order_date", "data_type": "date"},
+    cluster_by=["customer_id", "status"]
+) }}
+
+SELECT order_id, customer_id, order_date, total_amount, status
+FROM {{ source('raw_bronze', 'orders') }}
+{% if is_incremental() %}
+  WHERE order_date >= (SELECT MAX(order_date) FROM {{ this }})
+{% endif %}`,
+            outOfTheBoxTwist: "Cross-Cloud Question: 'How does GCP Dataform compare to dbt?' Answer: Dataform uses SQLX and is built natively into BigQuery Studio with zero server cost, but works only with BigQuery. dbt is multi-cloud (BigQuery, Snowflake, Databricks, Redshift), has richer community packages (dbt-utils, dbt-expectations), and provides comprehensive Git Slim CI integration!",
+            memoryRule: "Mnemonic: 'ETL for Masking & Trashing at the gate; ELT for Cloud Speed & Agile state.'"
+          },
+          {
+            id: "d1_q3",
+            category: "Q3 — Spark / Containers (Docker)",
+            title: "Python Memory Models & Why Docker Containerization is Critical for Spark / Airflow",
+            prompt: "How do Python List vs Tuple vs Set differ in CPython memory allocation, and why is Docker containerization mandatory for enterprise PySpark and Airflow deployments?",
+            pitch: "CPython Lists are mutable dynamic arrays with geometric over-allocation causing memory fragmentation. Tuples are immutable, compact contiguous blocks that serialize faster across Py4J JVM boundaries. Sets are hash tables with amortized O(1) lookups. In distributed systems, Docker packages these exact Python versions, C-extensions (like NumPy/Pandas), and system OS dependencies so that PySpark worker nodes and Airflow executors run identically without 'ModuleNotFoundError' or glibc library mismatches.",
+            engineMechanics: "When PySpark executes Python UDFs, it forks Python daemon processes on worker nodes. The JVM streams serialized data over inter-process domain sockets to CPython. If Python dependencies differ across cluster VMs, serialization fails. Docker containers solve this by encapsulating the runtime environment, executed natively via KubernetesPodOperator in Airflow or Dataproc on GKE.",
+            realWorldAnalogy: "Tuples are sealed pre-measured packages. Docker is the standardized shipping container: whether carried on a cargo ship (GCP GKE), a flatbed train (AWS EKS), or a truck (Local Mac), the machinery inside runs in the exact same pressurized environment without atmospheric damage.",
+            codeSnippet: `# Production Multi-Stage Dockerfile for Airflow & PySpark Tasks
+FROM apache/airflow:2.8.1-python3.10 as base
+
+USER root
+# Install Java runtime required for Spark submit
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    openjdk-11-jre-headless \
+    procps \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+USER airflow
+# Install pinned enterprise dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt \
+    apache-airflow-providers-google \
+    dbt-bigquery==1.7.0 \
+    pyspark==3.5.0`,
+            outOfTheBoxTwist: "Interview Trap: 'Can you use a Tuple as a dictionary key if it contains a list?' NO! A tuple is only hashable if ALL its elements are hashable. `t = (1, [2, 3])` will raise `TypeError: unhashable type: 'list'`!",
+            memoryRule: "Mnemonic: 'Tuples are tight; Docker keeps the cluster dependencies right.'"
+          },
+          {
+            id: "d1_q4",
+            category: "Q4 — GCP & Cross-Cloud (AWS/Azure)",
+            title: "BigQuery Architecture vs. AWS Redshift vs. Snowflake & GCP Primitives",
+            prompt: "Explain BigQuery's 4 core pillars (Borg, Dremel, Colossus, Jupiter) and contrast its architecture with AWS Redshift and Snowflake.",
+            pitch: "BigQuery decouples compute from storage completely: Dremel (multi-tenant query engine) executes across Borg-allocated slots, reading Capacitor columnar files from Colossus storage over Google's 1-Petabit/sec Jupiter bisection network. In contrast, AWS Redshift evolved from a provisioned node-based MPP cluster (though RA3 and Redshift Serverless now separate storage), while Snowflake separates storage and compute using per-tenant virtual warehouses.",
+            engineMechanics: "In BigQuery, any query can dynamically burst to thousands of slots on-demand without provisioning a single virtual machine. In AWS Redshift, queries queue in WLM (Workload Management) queues if cluster node capacity is exhausted. Snowflake requires auto-scaling separate virtual warehouse T-shirt sizes (S, M, L, XL), billing per second of warehouse uptime.",
+            realWorldAnalogy: "Traditional DB is a home kitchen. Redshift is renting a restaurant kitchen with 4 cooks on staff. Snowflake is a catering service where you order 8 cooks for 1 hour. BigQuery is a mega-stadium kitchen with 2,000 cooks ready on standby; they prepare your meal in 3 seconds, charge you 2 cents for the ingredients chopped, and disappear immediately.",
+            codeSnippet: `-- BigQuery Columnar Pruning (Capacitor File format)
+-- EFFICIENT: BigQuery reads ONLY the contiguous byte ranges for trip_miles & fare
+SELECT passenger_count, AVG(fare_amount) AS avg_fare
+FROM \`bigquery-public-data.new_york_taxi_trips.tlc_yellow_trips_2025\`
+WHERE pickup_datetime >= '2026-01-01'
+GROUP BY passenger_count;
+
+-- Cross-Cloud Comparison:
+-- AWS Redshift: Uses Sort Keys & Distribution Keys (EVEN, KEY, ALL)
+-- BigQuery: Uses PARTITION BY (Date/Integer) and CLUSTER BY (up to 4 columns)
+-- Snowflake: Uses Micro-partitions and Automatic Clustering`,
+            outOfTheBoxTwist: "Senior Edge Case: 'Does adding LIMIT 1 to SELECT * on a 1TB BigQuery table reduce scan cost?' NO! BigQuery is columnar. `SELECT *` reads 100% of all column blocks across the queried partitions. LIMIT only restricts bytes returned to the client, NOT bytes read from Colossus!",
+            memoryRule: "Mnemonic: 'Borg plans, Dremel scans, Colossus stores, Jupiter spans.'"
+          },
+          {
+            id: "d1_q5",
+            category: "Q5 — Airflow / Terraform / CI-CD",
+            title: "Airflow DAG Graphs, Terraform Infrastructure-as-Code & Git CI/CD",
+            prompt: "What is an Airflow DAG? How should Terraform and Git CI/CD pipelines automate the deployment of data infrastructure and pipelines?",
+            pitch: "An Airflow DAG (Directed Acyclic Graph) models pipeline dependencies where tasks flow in a single direction without cycles. A modern enterprise never deploys BigQuery datasets, GCS buckets, or Cloud Composer environments manually via the GCP console. Instead, Terraform defines the infrastructure as declarative code (IaC), while Git CI/CD pipelines (GitHub Actions/GitLab CI) test DAGs for compilation errors and automatically deploy to GCS DAG buckets.",
+            engineMechanics: "The Airflow Scheduler parses DAG files continuously using topological sorting; cycles trigger an immediate `AirflowDagCycleException`. In CI/CD, a pull request triggers a runner that: 1) Executes `terraform plan`, 2) Runs SQLFluff and `pytest` for DAG syntax, 3) Performs `dbt compile`, and 4) Syncs verified code to `gs://composer-bucket/dags/` upon merge.",
+            realWorldAnalogy: "Architectural blueprint and assembly line: Terraform pours the concrete foundation and builds the factory rooms (buckets & datasets). Git CI/CD is the quality inspector checking blueprints. Airflow is the factory foreman running the conveyor belts according to schedule.",
+            codeSnippet: `# 1. TERRAFORM: Provision BigQuery Dataset & GCS Bucket (main.tf)
+resource "google_bigquery_dataset" "analytics_mart" {
+  dataset_id                  = "analytics_mart"
+  friendly_name               = "Analytics Mart"
+  location                    = "US"
+  delete_contents_on_destroy  = false
+}
+
+# 2. GITHUB ACTIONS CI/CD (.github/workflows/deploy_dags.yml)
+name: Deploy Airflow DAGs
+on:
+  push:
+    branches: [ main ]
+jobs:
+  test_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with: { python-version: '3.10' }
+      - name: Run DAG Integrity Tests
+        run: |
+          pip install flake8 pytest apache-airflow
+          pytest tests/test_dag_integrity.py
+      - name: Authenticate to GCP & Sync DAGs
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: \${{ secrets.GCP_SA_KEY }}
+      - run: |
+          gcloud storage rsync ./dags gs://\${{ secrets.COMPOSER_BUCKET }}/dags/ --recursive --delete-unrelated`,
+            outOfTheBoxTwist: "Senior Trap: 'Why should you NEVER make external REST API calls or run dynamic SQL queries inside top-level DAG Python code?' Answer: The Airflow Scheduler executes top-level code on every heartbeat cycle (every 10-30 seconds)! API calls will saturate connection pools and freeze your scheduler!",
+            memoryRule: "Mnemonic: 'Terraform builds the floor; Git tests at the door; Airflow runs the chore.'"
+          }
+        ]
+      },
+
+      // DAY 2
+      2: {
+        week: 1,
+        weekTitle: "Week 1: SQL + Python + Data Engineering Fundamentals",
+        month: 1,
+        monthTitle: "Month 1 — Foundation",
+        dayTitle: "Day 2: Aggregations, OLTP vs OLAP, and Task Operators",
+        goal: "Understand group filtering mechanics, analytical vs transactional storage internals, and worker task life cycles.",
+        questions: [
+          {
+            id: "d2_q1",
+            category: "Q1 — SQL / Python / Modeling",
+            title: "WHERE vs. HAVING: Physical Order of Query Execution",
+            prompt: "What is the physical difference in query execution between WHERE and HAVING? Can you use both in the same query?",
+            pitch: "WHERE filters raw individual records BEFORE any aggregation occurs, directly reducing the volume of data feeding into the hash aggregation engine. HAVING filters summarized bucket results AFTER the GROUP BY operation has completed. Yes, both can and should be used together: use WHERE to discard non-qualifying rows early, and HAVING only for conditions on aggregated metrics like `COUNT()` or `SUM()`.",
+            engineMechanics: "In SQL engines, query lifecycle is: 1) FROM/JOIN -> 2) WHERE -> 3) GROUP BY -> 4) Aggregation computation -> 5) HAVING -> 6) SELECT -> 7) DISTINCT -> 8) ORDER BY -> 9) LIMIT. Placing a non-aggregate filter in HAVING forces the engine to shuffle and aggregate millions of useless rows before filtering, increasing query latency and BigQuery slot-time.",
+            realWorldAnalogy: "A fruit sorting factory: WHERE is throwing out rotten apples at the conveyor belt entrance before they touch the scale. GROUP BY is placing apples into boxes by variety. HAVING is inspecting the sealed boxes and shipping only boxes that weigh more than 50 pounds.",
+            codeSnippet: `-- OPTIMIZED: Discards bad data BEFORE aggregation
+SELECT department_id, AVG(salary) AS avg_sal
+FROM employees
+WHERE termination_date IS NULL  -- WHERE: Filters individual rows first!
+GROUP BY department_id
+HAVING AVG(salary) > 100000;   -- HAVING: Filters aggregate metric!`,
+            outOfTheBoxTwist: "Interview Trap: 'Can you reference column aliases created in the SELECT clause inside the HAVING clause?' In BigQuery, YES (due to flexible dialect compiler)! In standard ANSI SQL / Postgres, NO (because SELECT executes AFTER HAVING). Always clarify the SQL dialect!",
+            memoryRule: "Mnemonic: 'WHERE trims the rows; GROUP aggregates; HAVING trims the groups.'"
+          },
+          {
+            id: "d2_q2",
+            category: "Q2 — Core DE / dbt",
+            title: "OLTP vs. OLAP: Row-Oriented vs. Column-Oriented Storage Layouts",
+            prompt: "Compare OLTP and OLAP architectures at the physical disk block level. Why is Postgres ideal for OLTP while BigQuery dominates OLAP?",
+            pitch: "OLTP systems (PostgreSQL, Cloud SQL) are optimized for high-concurrency, low-latency row-level ACID transactions using row-oriented disk pages (e.g., 8KB pages storing all attributes of row 1, then row 2). OLAP systems (BigQuery, Snowflake) are optimized for analytical aggregations scanning billions of rows across a few columns, storing data in columnar blocks with heavy dictionary and run-length encoding.",
+            engineMechanics: "In row-storage, reading 1 column of 1 billion rows requires reading 100% of the entire table from disk into RAM. In columnar storage (Capacitor/Parquet), only the requested column's contiguous blocks are read. Columnar blocks also compress 10x better because data of the same type (e.g., all integers or timestamps) is stored adjacently, enabling SIMD vector processing.",
+            realWorldAnalogy: "OLTP is a binder of single-page employee dossiers; pulling Jane's entire file takes one second. OLAP is 50 separate spreadsheets where Sheet 1 contains all salaries, Sheet 2 contains all hire dates. Calculating average salary requires looking at only Sheet 1 without flipping through 1,000 dossiers.",
+            codeSnippet: `/* Physical block demonstration */
+-- OLTP (Row format on 8KB block):
+-- [ID=1, Name='Alice', Age=30, Address='NY', Salary=120000] | [ID=2, Name='Bob', Age=28, ...]
+
+-- OLAP (Columnar format on separate blocks):
+-- Block 1 (Ages):    [30, 28, 42, 35, 29] -> Run-length encoded
+-- Block 2 (Salaries):[120000, 95000, 180000] -> Min/Max dictionary encoded`,
+            outOfTheBoxTwist: "Why can't we use BigQuery as the backend database for a mobile banking app processing single transfers? Because BigQuery has high query initiation latency (1-3 seconds), quota limits on concurrent DML mutations, and is not designed for sub-millisecond point lookups!",
+            memoryRule: "Mnemonic: 'OLTP = Row & Write Fast; OLAP = Column & Crunch Bulk.'"
+          },
+          {
+            id: "d2_q3",
+            category: "Q3 — Spark / Containers (Docker)",
+            title: "Python Dictionaries & In-Memory Broadcast Mapping in PySpark",
+            prompt: "How are Python Dictionaries implemented in CPython? How do hash collisions get resolved, and why is this critical for Data Engineering lookups?",
+            pitch: "Python 3.7+ dictionaries are compact, order-preserving hash tables. They utilize an internal sparse index array pointing to a dense array of `[hash, key_pointer, value_pointer]`. Keys are hashed via `hash()`. When two keys produce the same hash or index slot (collision), CPython uses open addressing with a perturbation pseudo-random probing sequence. Lookups are amortized O(1), but degrade to O(N) if keys produce identical hashes.",
+            engineMechanics: "Compact dicts save 30-40% memory compared to legacy hash tables. In data engineering, dictionary lookups are used for in-memory broadcast dimension mapping. If an engineer accidentally hashes unhashable or poorly distributed objects, probe collisions cascade, spiking CPU and triggering latency spikes in stream processing pipelines.",
+            realWorldAnalogy: "A hotel mailroom with 100 mail slots. When mail arrives for 'Smith', the clerk calculates 100 % letters = slot 42. If slot 42 is already occupied by 'Smyth', open addressing says: check slot 43, 47, etc., following an exact mathematical formula until an empty slot is found.",
+            codeSnippet: `# Senior DE Pattern: Fast in-memory dimension lookup
+currency_rates = {'USD': 1.0, 'EUR': 1.08, 'GBP': 1.27}
+
+def convert_to_usd(amount: float, currency: str) -> float:
+    # O(1) average lookup; avoid dictionary mutation during concurrent iterations
+    rate = currency_rates.get(currency)
+    if rate is None:
+        raise ValueError(f"Unsupported currency: {currency}")
+    return amount * rate`,
+            outOfTheBoxTwist: "Interview Trap: 'What happens if you mutate a dictionary while iterating over it?' Python immediately raises `RuntimeError: dictionary changed size during iteration`. To fix: iterate over a copy of keys `for k in list(d.keys()):` or use a dictionary comprehension.",
+            memoryRule: "Mnemonic: 'Hash to slot; probe if blocked; amortized O(1) on the dot.'"
+          },
+          {
+            id: "d2_q4",
+            category: "Q4 — GCP & Cross-Cloud (AWS/Azure)",
+            title: "Google Cloud Storage (GCS) vs. AWS S3 vs. Azure ADLS Gen2",
+            prompt: "What is Google Cloud Storage (GCS) under the hood? Contrast its consistency model and namespace structure with AWS S3 and Azure Data Lake Storage (ADLS) Gen2.",
+            pitch: "GCS is an exabyte-scale, serverless object store providing strongly consistent object creation, overwrite, and deletion globally. GCS and AWS S3 use a flat key-value namespace where directory slashes (`/`) are simply string prefixes. In sharp contrast, Azure ADLS Gen2 provides a true Hierarchical Namespace (HNS), where directories are physical metadata entities, making folder renames and moves instant atomic operations.",
+            engineMechanics: "In GCS and S3, renaming a 50TB folder requires copying every individual file to the new prefix ($O(N)$ HTTP operations) and deleting the old objects, costing time and API money. On Azure ADLS Gen2, directory rename is an $O(1)$ metadata pointer swap. However, GCS has native dual-region turbo replication and seamless integration with BigQuery BigLake tables.",
+            realWorldAnalogy: "S3 and GCS are like warehouse storage boxes with long handwritten labels (`finance/2026/jan/doc1.pdf`). To change the folder name, you have to repaint every single box label. ADLS Gen2 is an actual physical filing cabinet: moving a folder just takes one second by sliding the drawer tab.",
+            codeSnippet: `# Correct Data Lake layout in GCS for BigQuery External Table partition pruning:
+# Pattern: gs://[bucket]/[entity]/year=YYYY/month=MM/day=DD/data.parquet
+
+# Using gcloud CLI to check strong consistency
+gcloud storage cp daily_sales.parquet gs://my-datalake/silver/sales/dt=2026-03-01/part-00.parquet
+# Immediately readable across any compute engine without delay!`,
+            outOfTheBoxTwist: "Interview Trap: 'Can you rename a 100TB folder in GCS with one command?' NO! Because directories don't physically exist, 'renaming a folder' is a copy of every single object key to a new prefix followed by deleting the old keys. For 100TB, this takes hours and costs thousands of API operations!",
+            memoryRule: "Mnemonic: 'GCS: Flat keys, no real trees; strongly consistent global ease.'"
+          },
+          {
+            id: "d2_q5",
+            category: "Q5 — Airflow / Terraform / CI-CD",
+            title: "Airflow Operators vs. Tasks vs. TaskInstances & State Management",
+            prompt: "What is the precise distinction between an Operator, a Task, and a TaskInstance in Apache Airflow?",
+            pitch: "An Operator is a Python class (a blueprint/template) that defines a unit of work (e.g., `PythonOperator`, `BigQueryInsertJobOperator`). A Task is an instantiation of that operator with specific parameters inside a DAG file. A TaskInstance is a specific run of that task for a specific point in time (`execution_date` / logical date) containing actual runtime state (queued, running, success, failed).",
+            engineMechanics: "The relationship is: Class $\\to$ Object $\\to$ Execution State. When the Airflow Scheduler parses a DAG, it registers Tasks in the metadata database. When a DAG run triggers for `2026-03-01`, the scheduler creates rows in the `task_instance` table. Celery/Kubernetes workers pick up the `TaskInstance` and invoke `operator.execute(context)`.",
+            realWorldAnalogy: "Operator is the architectural blueprint for a Tesla car. Task is a specific ordered car in the factory system: 'Model 3, Blue paint, Dual Motor'. TaskInstance is that specific car on the assembly line on March 1st at 10:00 AM with serial number #948192.",
+            codeSnippet: `# 1. OPERATOR: The class definition
+from airflow.providers.google.cloud.operators.bigquery import BigQueryExecuteQueryOperator
+
+# 2. TASK: Operator instantiated inside a DAG context
+aggregate_orders = BigQueryExecuteQueryOperator(
+    task_id='aggregate_orders',
+    sql='SELECT COUNT(*) FROM orders WHERE order_date = "{{ ds }}";',
+    use_legacy_sql=False
+)
+
+# 3. TASK INSTANCE: When Airflow executes aggregate_orders for execution_date='2026-03-01'
+# It has attributes: state='success', try_number=1, start_date=..., duration=4.2s`,
+            outOfTheBoxTwist: "Interview Trap: 'Can you dynamically generate 50 tasks in an Airflow DAG using a for loop?' Yes, but beware: the loop runs every time the scheduler parses the file. If the loop makes an external REST API or database call to find the 50 items, it will saturate your DB connections and freeze your Airflow scheduler!",
+            memoryRule: "Mnemonic: 'Operator is the Blueprint; Task is the Plan; TaskInstance is the Work on the ground.'"
+          }
+        ]
+      }
+    };
+
+    // Generates rich, syllabus-accurate technical interview questions for any day 1-112
+    function getDayData(dayNumber) {
+      if (CURRICULUM_DATA[dayNumber]) {
+        return CURRICULUM_DATA[dayNumber];
+      }
+
+      const month = Math.ceil(dayNumber / 28);
+      const week = Math.ceil(dayNumber / 7);
+      
+      const syllabusMap = {
+        1: { title: "SQL + Python + Data Engineering Fundamentals", q1: "SQL Joins & Execution", q2: "ETL vs ELT & dbt Core", q3: "Python Memory & Docker Containers", q4: "BigQuery vs Redshift vs Snowflake", q5: "Airflow DAGs, Git CI/CD & Terraform" },
+        2: { title: "Advanced SQL + Warehousing + dbt Deep Dive", q1: "Window Functions & LEAD/LAG", q2: "dbt Incremental Models & Snapshots", q3: "Python Generators & Decorators", q4: "BigQuery Partitioning & GCS vs S3", q5: "Airflow Sensors & Retry Strategies" },
+        3: { title: "Spark + PySpark Core Foundations", q1: "Complex Joins & Grouping Sets", q2: "Spark Shuffle & Memory Architecture", q3: "Broadcast Joins vs Sort Merge", q4: "Dataproc vs AWS EMR vs Databricks", q5: "Distributed Fault-Tolerant Pipelines" },
+        4: { title: "BigQuery + Cross-Cloud Services", q1: "SQL Execution Plans & Explain Graphs", q2: "BigQuery Slots vs Redshift RPUs", q3: "PySpark Optimization & Skew", q4: "GCS vs S3 vs ADLS Gen2 Storage", q5: "Terraform for BigQuery & GCS Resources" },
+        5: { title: "Advanced PySpark & Docker Containers", q1: "Window Aggregations at Scale", q2: "Catalyst Optimizer & AQE", q3: "Key Salting & Partition Balancing", q4: "BigLake vs Lake Formation vs Unity Catalog", q5: "Data Quality Frameworks (Great Expectations / dbt test)" },
+        6: { title: "Data Modeling + Dimensional Warehousing", q1: "Star vs Snowflake Optimization", q2: "Factless Fact Tables & SCD-2", q3: "PySpark Windowing & Partition Pruning", q4: "Dataform vs dbt in Warehouse Modeling", q5: "CDC Ingestion & Change Streams" },
+        7: { title: "ETL/ELT + Incremental Processing (CDC, dbt)", q1: "SQL MERGE & Upsert Deduplication", q2: "Watermarking & High-Water Marks", q3: "PySpark Streaming Micro-batches", q4: "BigQuery Storage Write API", q5: "Idempotent Backfilling & Git CI/CD Deployments" },
+        8: { title: "Python for Data Engineering & Git CI/CD", q1: "SQL Anti-Patterns & SARGability", q2: "Python OOP & Context Managers", q3: "Multiprocessing vs Threading in DE", q4: "BigQuery Cost FinOps vs Snowflake Credits", q5: "Dead Letter Queues & Automated GitHub Actions" },
+        9: { title: "GCP Deep Dive (Slots, Dataplex, Terraform)", q1: "Recursive CTEs & Hierarchies", q2: "BigQuery Editions (Standard/Enterprise/Plus)", q3: "PySpark on Dataproc Serverless", q4: "Dataplex Mesh vs AWS Lake Formation vs Purview", q5: "Terraform Infrastructure Modules for GCP" },
+        10: { title: "Streaming (Kafka, Pub/Sub, Dataflow Beam)", q1: "Streaming Event-Time vs Processing-Time", q2: "Kafka Offsets & Consumer Group Rebalances", q3: "Dataflow Windowing, Triggers & Watermarks", q4: "Pub/Sub Direct BQ Ingestion vs Kinesis Firehose", q5: "Exactly-Once Semantics Architecture" },
+        11: { title: "Data Lakehouse (Delta, Iceberg, BigLake)", q1: "ACID Transactions in Lakehouses", q2: "Apache Iceberg Metadata Specs", q3: "PySpark Delta Time Travel", q4: "BigLake Security & Object Tables", q5: "Medallion Architecture (Bronze/Silver/Gold)" },
+        12: { title: "System Design Scenarios (Cross-Cloud Scale)", q1: "Cohort Retention & Funnel SQL", q2: "Designing PB-Scale E-Commerce Pipeline", q3: "PySpark Real-Time Anomaly Detection", q4: "GCP Cost FinOps vs AWS Cost Allocation", q5: "Sub-Second Fraud Detection Architecture" },
+        13: { title: "SQL + BigQuery Production Triage", q1: "Debugging Query Out of Memory (OOM)", q2: "Diagnosing BigQuery Slot Starvation", q3: "Resolving Slow Cartesian Joins", q4: "Investigating Corrupted Staging Partitions", q5: "Remediating SLA Breaches in Cloud Composer" },
+        14: { title: "Spark Production Incidents (OOM & Shuffle)", q1: "SQL Skew Profiling on High-Cardinality Keys", q2: "Driver OOM vs Executor Container Exit 137", q3: "Mitigating Shuffle Spill to Disk in PySpark", q4: "Fixing Small File Bottlenecks in GCS / S3", q5: "Tuning Spark Memory Overhead for Pandas UDFs" },
+        15: { title: "Airflow, Docker & Terraform Production Failures", q1: "Deterministic Tie-Breaking Deduplication", q2: "Scheduler Zombie Tasks & Heartbeat Drops", q3: "PySpark Docker Image Deserialization Errors", q4: "BigQuery Concurrent DML Quota Limit Triage", q5: "Designing Self-Healing Pipelines with WAP" },
+        16: { title: "Final Mock Interview & Live Coding", q1: "Live SQL Problem: 2nd Highest & Gaps/Islands", q2: "Live Python Coding: In-Memory Stream Window", q3: "Live PySpark Coding: Custom Salting Transformer", q4: "Live Cross-Cloud Scenario: Migrating Redshift to BigQuery", q5: "Senior Behavioral: Handling Disagreements & P0 Outages" }
+      };
+
+      const weekMeta = syllabusMap[week] || syllabusMap[1];
+      const monthNames = [
+        "Month 1 — Foundation", 
+        "Month 2 — Advanced Data Engineering", 
+        "Month 3 — GCP Advanced + Streaming + System Design", 
+        "Month 4 — Production + Interview Simulation"
+      ];
+
+      return {
+        week: week,
+        weekTitle: `Week ${week}: ${weekMeta.title}`,
+        month: month,
+        monthTitle: monthNames[month - 1],
+        dayTitle: `Day ${dayNumber}: Advanced Technical Drill (${weekMeta.title.split(' ')[0]})`,
+        goal: `Master critical interview competencies for Day ${dayNumber} focusing on ${weekMeta.title}.`,
+        questions: [
+          {
+            id: `d${dayNumber}_q1`,
+            category: "Q1 — SQL / Python / Modeling",
+            title: `${weekMeta.q1} — Deep Interview Mechanics`,
+            prompt: `Explain the physical execution dynamics of ${weekMeta.q1}. What is the most dangerous production failure mode interviewers look for?`,
+            pitch: `In production workloads, ${weekMeta.q1} hinges on understanding execution plan cost models and memory footprints. When query planners process non-sargable filters or skewed keys, they fall back to expensive full-table scans or shuffle exchanges, spiking slot consumption by orders of magnitude.`,
+            engineMechanics: "The query planner (Catalyst or BigQuery Dremel) computes stage trees. If join predicates lack unique equality conditions, distributed workers build massive in-memory hash tables that exceed L1/L2 cache and spill directly to disk, creating severe stage latency.",
+            realWorldAnalogy: "Like a librarian looking up a book: Sargable queries use the catalog index card (O(log N)); non-sargable queries force the librarian to inspect all 500,000 physical books from cover to cover.",
+            codeSnippet: `-- Day ${dayNumber} Production Pattern:
+SELECT entity_id, metric_val,
+       ROW_NUMBER() OVER (PARTITION BY entity_id ORDER BY updated_at DESC) as rank_order
+FROM \`analytics.enterprise_dataset\`
+WHERE partition_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)
+QUALIFY rank_order = 1;`,
+            outOfTheBoxTwist: "Senior Trap: Interviewers will ask 'How does this behave when the column contains 90% NULL values?' Always clarify that NULLs map to a single partition unless salted or handled via COALESCE!",
+            memoryRule: "Mnemonic: 'Prune the scan, salt the key, keep the execution memory free.'"
+          },
+          {
+            id: `d${dayNumber}_q2`,
+            category: "Q2 — Core DE / dbt",
+            title: `${weekMeta.q2} — Production Best Practices`,
+            prompt: `How do you architect ${weekMeta.q2} using dbt or modern ELT to ensure zero data loss, sub-minute recovery, and cost efficiency?`,
+            pitch: `Architecting ${weekMeta.q2} requires complete decoupling of storage and compute, deterministic idempotency through stateful watermarks or append-only staging tables, and dbt incremental materializations with unique keys.`,
+            engineMechanics: "By leveraging columnar formats with dictionary encoding (Parquet/Capacitor), I/O is reduced by up to 90%. In dbt, an incremental model generates an atomic MERGE statement against BigQuery, pruning scanned target partitions via the `is_incremental()` macro.",
+            realWorldAnalogy: "An airplane flight recorder: You never edit past cockpit audio; you append continuous log streams with exact timestamps so accidents can be reconstructed perfectly.",
+            codeSnippet: `# Production dbt Incremental Model:
+{{ config(materialized='incremental', unique_key='id', cluster_by=['region']) }}
+SELECT id, updated_at, status, amount
+FROM {{ source('raw', 'events') }}
+{% if is_incremental() %}
+  WHERE updated_at > (SELECT MAX(updated_at) FROM {{ this }})
+{% endif %}`,
+            outOfTheBoxTwist: "What happens during network timeouts midway through write? In BigQuery, DML MERGE is transactional: it either succeeds completely or rolls back, preventing partial corrupted state.",
+            memoryRule: "Mnemonic: 'Append raw, test in stage, publish clean to the golden page.'"
+          },
+          {
+            id: `d${dayNumber}_q3`,
+            category: "Q3 — Spark / Containers (Docker)",
+            title: `${weekMeta.q3} — Distributed Engine & Container Internals`,
+            prompt: `Describe how Spark handles ${weekMeta.q3} under heavy data skew and limited executor memory, and how Docker ensures reproducible execution.`,
+            pitch: `Spark distributes ${weekMeta.q3} via hash partitioning. When data skew occurs, a single partition monopolizes memory, causing executor task stragglers and JVM Heap OutOfMemoryErrors. Docker packages the exact PySpark runtime, native dependencies, and memory configs to guarantee consistent worker behavior across environments.`,
+            engineMechanics: "In the Shuffle Map stage, map tasks serialize row buffers into memory chunks. If memory fills, Spark triggers `ShuffleSpill (Disk)`, compressing intermediate files to executor scratch disks. Reduce tasks pull these over Netty sockets, creating severe I/O bottlenecks.",
+            realWorldAnalogy: "A toll booth on a highway: If 99% of cars line up for Cash Lane #1 while EZ-Pass Lanes 2-10 are empty, the entire highway comes to a standstill despite having 10 lanes.",
+            codeSnippet: `from pyspark.sql import functions as F
+
+# Dynamic Salting to eliminate skew during wide transformation
+df_salted = df.withColumn("salt_key", F.concat(F.col("key"), F.lit("_"), F.floor(F.rand() * 8)))
+# Downstream operations execute evenly across 8x workers!`,
+            outOfTheBoxTwist: "Interview Trap: 'Does increasing executor memory always fix the issue?' NO! If GC (Garbage Collection) pause times exceed 10 seconds, larger heaps worsen latency. The solution is partition redistribution, not bigger heaps!",
+            memoryRule: "Mnemonic: 'Don't just add RAM to the machine; salt the keys to keep partitions clean.'"
+          },
+          {
+            id: `d${dayNumber}_q4`,
+            category: "Q4 — GCP & Cross-Cloud (AWS/Azure)",
+            title: `${weekMeta.q4} — Multi-Cloud Architecture & Tradeoffs`,
+            prompt: `How does Google Cloud implement ${weekMeta.q4}, and how does it compare directly to AWS and Azure equivalents?`,
+            pitch: `Google implements ${weekMeta.q4} through serverless decoupling of compute and storage. Compared to AWS and Azure equivalents, GCP minimizes manual cluster maintenance and optimizes network throughput via its Jupiter petabit backbone. Cost is optimized through partition pruning, clustering, and commit reservations.`,
+            engineMechanics: "When queries execute, Dremel mixer nodes split execution trees into parallel leaf fragments. Capacitors store column chunks with min/max sparse indexes; queries with partition and cluster filters skip non-relevant storage blocks completely without touching disk.",
+            realWorldAnalogy: "Going to a grocery store with an exact aisle map vs roaming every single aisle hoping to bump into peanut butter.",
+            codeSnippet: `-- DDL enforcing partitioning and clustering for maximum scan reduction:
+CREATE TABLE \`enterprise_prod.events_gold\` (
+    event_id STRING,
+    user_id STRING,
+    event_time TIMESTAMP,
+    country_code STRING
+)
+PARTITION BY DATE(event_time)
+CLUSTER BY country_code, user_id
+OPTIONS(require_partition_filter = TRUE);`,
+            outOfTheBoxTwist: "Cross-Cloud Question: 'How does BigQuery clustering differ from AWS Redshift Sort Keys?' Redshift Sort Keys require manual VACUUMing to sort newly added rows. BigQuery clustering is automatically re-sorted in the background by Google with zero maintenance!",
+            memoryRule: "Mnemonic: 'Partition on Date to chop the year; Cluster on ID to zoom in near.'"
+          },
+          {
+            id: `d${dayNumber}_q5`,
+            category: "Q5 — Airflow / Terraform / CI-CD",
+            title: `${weekMeta.q5} — Orchestration, Terraform & Automated CI/CD`,
+            prompt: `Walk through your production runbook when ${weekMeta.q5} fails, and how Terraform and CI/CD guarantee reproducibility.`,
+            pitch: `When ${weekMeta.q5} fails, our automated runbook engages: 1) Circuit-breaker isolation to prevent bad data from reaching downstream marts. 2) PagerDuty alert containing task instance log URL and execution context. 3) Automated retry with exponential backoff. 4) Terraform ensures infrastructure drift is prevented, and Git CI/CD validates code before deployment.`,
+            engineMechanics: "The Airflow scheduler catches worker container termination or timeout signals via heartbeat callbacks. It transitions task state from RUNNING to UP_FOR_RETRY in the PostgreSQL metadata database, releasing worker slots back to the Celery/Kubernetes queue.",
+            realWorldAnalogy: "Electrical circuit breaker: If a hair dryer shorts out in the bathroom, the breaker trips to prevent the whole house from catching fire, while the kitchen fridge stays running.",
+            codeSnippet: `# Resilient Airflow Task Definition:
+task = BigQueryInsertJobOperator(
+    task_id='curate_gold_sales',
+    configuration={...},
+    retries=3,
+    retry_delay=timedelta(minutes=5),
+    retry_exponential_backoff=True,
+    on_failure_callback=send_pagerduty_p0
+)`,
+            outOfTheBoxTwist: "Interview Trap: 'Why did my sensor task run for 24 hours and starve the entire Airflow worker pool?' Answer: The sensor used `mode='poke'`! Always use `mode='reschedule'` so the worker slot is released between checks!",
+            memoryRule: "Mnemonic: 'Sensor on reschedule; retry with backoff; WAP pattern keeps bad data off.'"
+          }
+        ]
+      };
+    }
+
+    let currentDay = 1;
+    let currentMonth = 1;
+    let selectedCategory = "all";
+    let flashcardMode = false;
+    let masteredQuestions = new Set();
+    let bookmarkedQuestions = new Set();
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderMonthTabs();
+      renderDayPills(1);
+      loadDay(1);
+
+      // Day controls
+      document.getElementById('prevDayBtn').addEventListener('click', () => changeDay(currentDay - 1));
+      document.getElementById('nextDayBtn').addEventListener('click', () => changeDay(currentDay + 1));
+      document.getElementById('footerPrevBtn').addEventListener('click', () => changeDay(currentDay - 1));
+      document.getElementById('footerNextBtn').addEventListener('click', () => changeDay(currentDay + 1));
+
+      // Direct Day Jump control with null-safety check
+      const jumpInput = document.getElementById('jumpDayInput');
+      const jumpBtn = document.getElementById('jumpDayBtn');
+      if (jumpInput && jumpBtn) {
+        const performJump = () => {
+          const val = parseInt(jumpInput.value);
+          if (!isNaN(val) && val >= 1 && val <= 112) {
+            loadDay(val);
+            jumpInput.value = '';
+            showToast(`Jumped to Day ${val}`, 'fa-arrow-right');
+          } else {
+            showToast('Please enter a day between 1 and 112', 'fa-triangle-exclamation');
+          }
+        };
+        jumpBtn.addEventListener('click', performJump);
+        jumpInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') performJump();
+        });
+      }
+
+      // Global search
+      document.getElementById('globalSearchInput').addEventListener('input', (e) => {
+        handleSearch(e.target.value.toLowerCase().trim());
+      });
+
+      // Category filters
+      document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.cat-filter-btn').forEach(b => {
+            b.classList.remove('active', 'bg-indigo-600', 'text-white');
+            b.classList.add('bg-slate-900', 'text-slate-300');
+          });
+          btn.classList.add('active', 'bg-indigo-600', 'text-white');
+          btn.classList.remove('bg-slate-900', 'text-slate-300');
+          selectedCategory = btn.getAttribute('data-cat');
+          renderCurrentDayQuestions();
+        });
+      });
+
+      // Flashcard recall toggle
+      document.getElementById('flashcardModeToggle').addEventListener('click', () => {
+        flashcardMode = !flashcardMode;
+        const btn = document.getElementById('flashcardModeToggle');
+        if (flashcardMode) {
+          btn.classList.add('bg-purple-600', 'text-white');
+          btn.classList.remove('bg-slate-900', 'text-slate-300');
+          showToast("Recall Mode Active: Hover or click answers to reveal!", "fa-brain");
+        } else {
+          btn.classList.remove('bg-purple-600', 'text-white');
+          btn.classList.add('bg-slate-900', 'text-slate-300');
+          showToast("Standard Mode: Answers fully visible", "fa-eye");
+        }
+        renderCurrentDayQuestions();
+      });
+
+      // Mark All Mastered button
+      document.getElementById('markAllMasteredBtn').addEventListener('click', () => {
+        const dayData = getDayData(currentDay);
+        dayData.questions.forEach(q => masteredQuestions.add(q.id));
+        updateMetrics();
+        renderCurrentDayQuestions();
+        renderDayPills(currentDay);
+        showToast(`All Day ${currentDay} questions marked as Mastered!`, 'fa-circle-check');
+      });
+
+      // Random Drill Simulator
+      document.getElementById('randomDrillBtn').addEventListener('click', () => {
+        const randDay = Math.floor(Math.random() * 112) + 1;
+        loadDay(randDay);
+        showToast(`Jumped to Day ${randDay} Drill! Can you answer Question 1?`, "fa-dice");
+      });
+
+      // Cross-Cloud Modal Setup
+      setupCrossCloudModal();
+
+      // Timer Modal
+      setupTimerModal();
+
+      // Curriculum Syllabus Modal
+      setupSyllabusModal();
+    });
+
+    function setupCrossCloudModal() {
+      const openBtn = document.getElementById('crossCloudModalBtn');
+      const modal = document.getElementById('crossCloudModal');
+      const closeBtn = document.getElementById('closeCrossCloudModalBtn');
+      const container = document.getElementById('crossCloudCardsContainer');
+      const searchInput = document.getElementById('matrixSearchInput');
+      const filterPills = document.querySelectorAll('.matrix-filter');
+
+      let currentFilter = 'all';
+
+      function renderMatrix(filter, query = '') {
+        container.innerHTML = '';
+        const filtered = CROSS_CLOUD_MATRIX.filter(item => {
+          const matchesCat = (filter === 'all' || item.category === filter);
+          const q = query.toLowerCase();
+          const matchesQuery = !query || (
+            item.title.toLowerCase().includes(q) ||
+            item.gcp.name.toLowerCase().includes(q) ||
+            item.aws.name.toLowerCase().includes(q) ||
+            item.azure.name.toLowerCase().includes(q) ||
+            item.differences.toLowerCase().includes(q) ||
+            item.bestForWhat.toLowerCase().includes(q)
+          );
+          return matchesCat && matchesQuery;
+        });
+
+        if (filtered.length === 0) {
+          container.innerHTML = `
+            <div class="p-8 text-center text-slate-400">
+              <i class="fa-solid fa-cloud-slash text-2xl mb-2 text-slate-500"></i>
+              <p>No cross-cloud comparisons found matching your query.</p>
+            </div>
+          `;
+          return;
+        }
+
+        filtered.forEach(item => {
+          const card = document.createElement('div');
+          card.className = "bg-slate-950/80 border border-slate-800 rounded-2xl p-5 space-y-4";
+          card.innerHTML = `
+            <div class="flex items-center justify-between">
+              <h4 class="text-sm font-bold text-white flex items-center space-x-2">
+                <i class="fa-solid fa-layer-group text-sky-400"></i>
+                <span>${item.title}</span>
+              </h4>
+              <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-400">${item.category}</span>
+            </div>
+
+            <!-- 3 Columns: GCP vs AWS vs Azure -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+              <!-- GCP -->
+              <div class="p-3.5 rounded-xl bg-blue-950/20 border border-blue-500/25 space-y-1.5">
+                <div class="flex items-center space-x-1.5 text-blue-400 font-bold text-xs">
+                  <i class="fa-brands fa-google"></i>
+                  <span>Google Cloud (GCP)</span>
+                </div>
+                <div class="text-xs font-semibold text-white">${item.gcp.name}</div>
+                <p class="text-[11px] text-slate-300 leading-relaxed">${item.gcp.desc}</p>
+              </div>
+
+              <!-- AWS -->
+              <div class="p-3.5 rounded-xl bg-amber-950/20 border border-amber-500/25 space-y-1.5">
+                <div class="flex items-center space-x-1.5 text-amber-400 font-bold text-xs">
+                  <i class="fa-brands fa-aws"></i>
+                  <span>Amazon Web Services (AWS)</span>
+                </div>
+                <div class="text-xs font-semibold text-white">${item.aws.name}</div>
+                <p class="text-[11px] text-slate-300 leading-relaxed">${item.aws.desc}</p>
+              </div>
+
+              <!-- Azure -->
+              <div class="p-3.5 rounded-xl bg-cyan-950/20 border border-cyan-500/25 space-y-1.5">
+                <div class="flex items-center space-x-1.5 text-cyan-400 font-bold text-xs">
+                  <i class="fa-brands fa-microsoft"></i>
+                  <span>Microsoft Azure</span>
+                </div>
+                <div class="text-xs font-semibold text-white">${item.azure.name}</div>
+                <p class="text-[11px] text-slate-300 leading-relaxed">${item.azure.desc}</p>
+              </div>
+            </div>
+
+            <!-- Detailed Architectural Breakdown -->
+            <div class="space-y-2 pt-2 border-t border-slate-800/80">
+              <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs leading-relaxed text-slate-300">
+                <strong class="text-sky-300"><i class="fa-solid fa-arrows-split-up-and-left mr-1"></i> Core Architectural Differences:</strong>
+                <p class="mt-1">${item.differences}</p>
+              </div>
+
+              <div class="p-3 rounded-xl bg-emerald-950/20 border border-emerald-500/25 text-xs leading-relaxed text-emerald-200">
+                <strong class="text-emerald-400"><i class="fa-solid fa-circle-check mr-1"></i> What is Best for What? (Decision Matrix):</strong>
+                <p class="mt-1">${item.bestForWhat}</p>
+              </div>
+
+              <div class="p-2.5 rounded-xl bg-indigo-950/30 border border-indigo-500/30 text-xs text-indigo-300 flex items-start space-x-2">
+                <i class="fa-solid fa-lightbulb text-indigo-400 mt-0.5"></i>
+                <div>
+                  <strong class="text-indigo-200">Interview Winning Speech:</strong> ${item.interviewTip}
+                </div>
+              </div>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      openBtn.addEventListener('click', () => {
+        renderMatrix(currentFilter, searchInput.value);
+        modal.classList.remove('hidden');
+      });
+
+      closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+
+      filterPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          filterPills.forEach(p => {
+            p.classList.remove('active', 'bg-sky-600', 'text-white');
+            p.classList.add('bg-slate-900', 'text-slate-300');
+          });
+          pill.classList.add('active', 'bg-sky-600', 'text-white');
+          pill.classList.remove('bg-slate-900', 'text-slate-300');
+          currentFilter = pill.getAttribute('data-service');
+          renderMatrix(currentFilter, searchInput.value);
+        });
+      });
+
+      searchInput.addEventListener('input', (e) => {
+        renderMatrix(currentFilter, e.target.value.trim());
+      });
+    }
+
+    function renderMonthTabs() {
+      const container = document.getElementById('monthTabsContainer');
+      container.innerHTML = '';
+
+      const months = [
+        { num: 1, label: "M1: Foundation (D1-28)", icon: "fa-cubes" },
+        { num: 2, label: "M2: Advanced DE (D29-56)", icon: "fa-gears" },
+        { num: 3, label: "M3: GCP & Streaming (D57-84)", icon: "fa-cloud" },
+        { num: 4, label: "M4: Production & Mock (D85-112)", icon: "fa-fire" },
+      ];
+
+      months.forEach(m => {
+        const btn = document.createElement('button');
+        const isActive = m.num === currentMonth;
+        btn.className = `px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition ${
+          isActive 
+            ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' 
+            : 'bg-slate-900/80 border border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+        }`;
+        btn.innerHTML = `<i class="fa-solid ${m.icon}"></i><span>${m.label}</span>`;
+        btn.addEventListener('click', () => {
+          currentMonth = m.num;
+          const firstDayOfMonth = (currentMonth - 1) * 28 + 1;
+          renderMonthTabs();
+          renderDayPills(firstDayOfMonth);
+          loadDay(firstDayOfMonth);
+        });
+        container.appendChild(btn);
+      });
+    }
+
+    function renderDayPills(targetDay) {
+      const container = document.getElementById('dayPillsContainer');
+      container.innerHTML = '';
+
+      const startDay = (currentMonth - 1) * 28 + 1;
+      const endDay = currentMonth * 28;
+
+      for (let d = startDay; d <= endDay; d++) {
+        const pill = document.createElement('button');
+        const isSelected = d === currentDay;
+        
+        pill.className = `px-3 py-1 rounded-lg text-xs font-mono font-medium transition flex items-center space-x-1 whitespace-nowrap border ${
+          isSelected 
+            ? 'active-day-pill text-white' 
+            : 'bg-slate-800/60 border-slate-800/80 hover:bg-slate-700/80 text-slate-400 hover:text-slate-200'
+        }`;
+
+        const isMastered = isDayFullyMastered(d);
+        pill.innerHTML = `
+          <span>D${d}</span>
+          ${isMastered ? '<i class="fa-solid fa-circle-check text-[10px] text-emerald-400"></i>' : ''}
+        `;
+
+        pill.addEventListener('click', () => {
+          loadDay(d);
+        });
+
+        container.appendChild(pill);
+      }
+    }
+
+    function isDayFullyMastered(day) {
+      const data = getDayData(day);
+      return data.questions.every(q => masteredQuestions.has(q.id));
+    }
+
+    function loadDay(dayNum) {
+      if (dayNum < 1) dayNum = 1;
+      if (dayNum > 112) dayNum = 112;
+      currentDay = dayNum;
+
+      const requiredMonth = Math.ceil(currentDay / 28);
+      if (requiredMonth !== currentMonth) {
+        currentMonth = requiredMonth;
+        renderMonthTabs();
+      }
+
+      document.getElementById('currentDayBadge').textContent = `Day ${currentDay}`;
+      const dayData = getDayData(currentDay);
+
+      document.getElementById('currentWeekTitle').textContent = dayData.weekTitle;
+      const weekStart = (dayData.week - 1) * 7 + 1;
+      const weekEnd = dayData.week * 7;
+      document.getElementById('dayRangeBadge').textContent = `Days ${weekStart} - ${weekEnd}`;
+
+      document.getElementById('heroPhaseLabel').textContent = dayData.monthTitle;
+      document.getElementById('heroDayHeading').textContent = dayData.dayTitle;
+      document.getElementById('heroDayGoal').textContent = dayData.goal;
+
+      renderDayPills(currentDay);
+      renderCurrentDayQuestions();
+      updateMetrics();
+
+      window.scrollTo({ top: 100, behavior: 'smooth' });
+    }
+
+    function changeDay(newDay) {
+      if (newDay >= 1 && newDay <= 112) {
+        loadDay(newDay);
+      }
+    }
+
+    function renderCurrentDayQuestions() {
+      const container = document.getElementById('questionsContainer');
+      container.innerHTML = '';
+
+      const dayData = getDayData(currentDay);
+      let questions = dayData.questions;
+
+      if (selectedCategory !== 'all') {
+        questions = questions.filter(q => q.category === selectedCategory);
+      }
+
+      if (questions.length === 0) {
+        container.innerHTML = `
+          <div class="card-glass rounded-2xl p-12 text-center space-y-3">
+            <i class="fa-solid fa-filter text-slate-500 text-3xl"></i>
+            <h3 class="text-base font-bold text-slate-300">No questions match '${selectedCategory}' for Day ${currentDay}</h3>
+            <p class="text-xs text-slate-500">Switch filter to 'All (5)' to see all 5 interview questions.</p>
+          </div>
+        `;
+        return;
+      }
+
+      questions.forEach((q, idx) => {
+        const isMastered = masteredQuestions.has(q.id);
+        const isBookmarked = bookmarkedQuestions.has(q.id);
+
+        const card = document.createElement('div');
+        card.className = `card-glass rounded-2xl p-6 space-y-5 transition duration-200 relative ${
+          isMastered ? 'border-l-4 border-l-emerald-500' : 'border-l-4 border-l-indigo-600'
+        }`;
+
+        card.innerHTML = `
+          <!-- Top Row: Category Tag and Actions -->
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center space-x-2">
+              <span class="px-2.5 py-1 rounded-lg text-[11px] font-bold uppercase tracking-wider bg-slate-800 text-indigo-300 border border-indigo-500/20">
+                ${q.category}
+              </span>
+              <span class="text-xs font-mono text-slate-400">Question ${idx + 1} of ${questions.length}</span>
+            </div>
+
+            <div class="flex items-center space-x-2">
+              ${flashcardMode ? `
+                <button class="reveal-btn px-2.5 py-1 rounded-lg bg-purple-600/30 hover:bg-purple-600/50 text-purple-200 border border-purple-500/30 text-xs font-medium transition flex items-center space-x-1.5">
+                  <i class="fa-solid fa-eye text-purple-300"></i>
+                  <span>Reveal Answer</span>
+                </button>
+              ` : ''}
+
+              <button class="bookmark-btn p-2 rounded-xl text-xs transition ${
+                isBookmarked ? 'text-amber-400 bg-amber-500/10' : 'text-slate-400 hover:text-white bg-slate-800/80'
+              }" data-id="${q.id}" title="Bookmark Question">
+                <i class="fa-${isBookmarked ? 'solid' : 'regular'} fa-bookmark"></i>
+              </button>
+
+              <button class="master-btn px-3 py-1.5 rounded-xl text-xs font-medium transition flex items-center space-x-1.5 ${
+                isMastered 
+                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' 
+                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+              }" data-id="${q.id}">
+                <i class="fa-solid fa-check"></i>
+                <span>${isMastered ? 'Mastered' : 'Mark Mastered'}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Question Title & Prompt -->
+          <div class="space-y-1.5">
+            <h3 class="text-base sm:text-lg font-bold text-white tracking-tight">${q.title}</h3>
+            <div class="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 text-xs sm:text-sm text-indigo-200 font-medium leading-relaxed">
+              <i class="fa-solid fa-circle-question text-indigo-400 mr-1.5"></i>
+              ${q.prompt}
+            </div>
+          </div>
+
+          <!-- Answer & Breakdown Container (supports Flashcard Blur) -->
+          <div class="space-y-4 answer-block ${flashcardMode ? 'answer-blur cursor-pointer' : ''}">
+            
+            <!-- 30-Second Elevator Pitch -->
+            <div class="space-y-1.5">
+              <div class="flex items-center space-x-2">
+                <span class="h-2 w-2 rounded-full bg-amber-400"></span>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-amber-400">⚡ The 30-Second Interview Answer (Say this aloud):</h4>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-200 bg-amber-950/15 border border-amber-500/20 p-3 rounded-xl leading-relaxed">
+                ${q.pitch}
+              </p>
+            </div>
+
+            <!-- Under-the-Hood Engine Mechanics -->
+            <div class="space-y-1.5">
+              <div class="flex items-center space-x-2">
+                <span class="h-2 w-2 rounded-full bg-sky-400"></span>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-sky-400">🔍 Under-The-Hood Mechanics (What the engine actually does):</h4>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300 bg-slate-900/90 border border-slate-800 p-3 rounded-xl leading-relaxed">
+                ${q.engineMechanics}
+              </p>
+            </div>
+
+            <!-- Real-World Analogy -->
+            <div class="space-y-1.5">
+              <div class="flex items-center space-x-2">
+                <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-400">🌍 Real-World Analogy (Easy Mental Anchor):</h4>
+              </div>
+              <p class="text-xs text-emerald-200/95 bg-emerald-950/20 border border-emerald-500/20 p-3 rounded-xl leading-relaxed italic">
+                <i class="fa-solid fa-lightbulb text-emerald-400 mr-1 not-italic"></i>
+                "${q.realWorldAnalogy}"
+              </p>
+            </div>
+
+            <!-- Production Code Snippet -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                  <span class="h-2 w-2 rounded-full bg-purple-400"></span>
+                  <h4 class="text-xs font-bold uppercase tracking-wider text-purple-400">💻 Production Code / Pattern:</h4>
+                </div>
+                <button class="copy-code-btn text-[11px] text-slate-400 hover:text-white flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 transition">
+                  <i class="fa-regular fa-copy"></i>
+                  <span>Copy Code</span>
+                </button>
+              </div>
+              <div class="relative">
+                <pre class="bg-[#050811] border border-slate-800/90 rounded-xl p-3.5 text-xs text-sky-300 overflow-x-auto leading-relaxed"><code>${escapeHtml(q.codeSnippet)}</code></pre>
+              </div>
+            </div>
+
+            <!-- Out-of-the-Box Senior Trap -->
+            <div class="space-y-1.5">
+              <div class="flex items-center space-x-2">
+                <span class="h-2 w-2 rounded-full bg-rose-400"></span>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-rose-400">🧠 "Think Out of the Box" (Senior Interview Edge-Case Trap):</h4>
+              </div>
+              <p class="text-xs sm:text-sm text-rose-200/95 bg-rose-950/20 border border-rose-500/20 p-3 rounded-xl leading-relaxed">
+                <i class="fa-solid fa-skull-crossbones text-rose-400 mr-1"></i>
+                ${q.outOfTheBoxTwist}
+              </p>
+            </div>
+
+            <!-- Memory Anchor Cheat Rule -->
+            <div class="p-2.5 rounded-xl bg-indigo-950/30 border border-indigo-500/30 flex items-center space-x-2 text-xs text-indigo-300">
+              <i class="fa-solid fa-key text-indigo-400"></i>
+              <span><strong>Quick Memory Anchor:</strong> ${q.memoryRule}</span>
+            </div>
+
+          </div>
+        `;
+
+        // Answer reveal click in flashcard mode
+        const answerBlock = card.querySelector('.answer-block');
+        const revealBtn = card.querySelector('.reveal-btn');
+
+        if (revealBtn) {
+          revealBtn.addEventListener('click', () => {
+            answerBlock.classList.toggle('revealed');
+            const isRevealed = answerBlock.classList.contains('revealed');
+            revealBtn.innerHTML = isRevealed 
+              ? '<i class="fa-solid fa-eye-slash text-purple-300"></i><span>Hide Answer</span>'
+              : '<i class="fa-solid fa-eye text-purple-300"></i><span>Reveal Answer</span>';
+          });
+        }
+
+        answerBlock.addEventListener('click', () => {
+          if (flashcardMode) {
+            answerBlock.classList.toggle('revealed');
+            if (revealBtn) {
+              const isRevealed = answerBlock.classList.contains('revealed');
+              revealBtn.innerHTML = isRevealed 
+                ? '<i class="fa-solid fa-eye-slash text-purple-300"></i><span>Hide Answer</span>'
+                : '<i class="fa-solid fa-eye text-purple-300"></i><span>Reveal Answer</span>';
+            }
+          }
+        });
+
+        // Master button listener
+        const masterBtn = card.querySelector('.master-btn');
+        masterBtn.addEventListener('click', () => {
+          if (masteredQuestions.has(q.id)) {
+            masteredQuestions.delete(q.id);
+            showToast("Unmarked question", "fa-rotate-left");
+          } else {
+            masteredQuestions.add(q.id);
+            showToast("Question Mastered! Keep it up!", "fa-circle-check");
+          }
+          updateMetrics();
+          renderCurrentDayQuestions();
+          renderDayPills(currentDay);
+        });
+
+        // Bookmark listener
+        const bookmarkBtn = card.querySelector('.bookmark-btn');
+        bookmarkBtn.addEventListener('click', () => {
+          if (bookmarkedQuestions.has(q.id)) {
+            bookmarkedQuestions.delete(q.id);
+            showToast("Removed from bookmarks", "fa-bookmark");
+          } else {
+            bookmarkedQuestions.add(q.id);
+            showToast("Saved to Bookmarks!", "fa-bookmark");
+          }
+          renderCurrentDayQuestions();
+        });
+
+        // Copy code listener
+        const copyBtn = card.querySelector('.copy-code-btn');
+        copyBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          copyToClipboard(q.codeSnippet);
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    // Helper: Escape HTML strings for code injection
+    function escapeHtml(string) {
+      return String(string)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function copyToClipboard(text) {
+      const tempTextArea = document.createElement('textarea');
+      tempTextArea.value = text;
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      try {
+        document.execCommand('copy');
+        showToast("Code copied to clipboard!", "fa-check");
+      } catch (err) {
+        showToast("Failed to copy snippet", "fa-circle-xmark");
+      }
+      document.body.removeChild(tempTextArea);
+    }
+
+    // Toast notifications
+    function showToast(message, icon = "fa-circle-check") {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMessage');
+      const toastIcon = document.getElementById('toastIcon');
+
+      toastMsg.textContent = message;
+      toastIcon.className = `fa-solid ${icon} text-emerald-400`;
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2500);
+    }
+
+    // Update metrics & streak
+    function updateMetrics() {
+      const totalQuestions = 112 * 5; // 560
+      const mastered = masteredQuestions.size;
+      document.getElementById('masteredCount').textContent = mastered;
+
+      const pct = Math.round((mastered / totalQuestions) * 100);
+      document.getElementById('progressPercentage').textContent = `${pct}%`;
+    }
+
+    function handleSearch(query) {
+      if (!query) {
+        renderCurrentDayQuestions();
+        return;
+      }
+
+      const container = document.getElementById('questionsContainer');
+      container.innerHTML = '';
+
+      let matchingQuestions = [];
+
+      // Search cached days and dynamic days
+      for (let day = 1; day <= 112; day++) {
+        const dData = getDayData(day);
+        dData.questions.forEach(q => {
+          if (
+            q.title.toLowerCase().includes(query) ||
+            q.prompt.toLowerCase().includes(query) ||
+            q.pitch.toLowerCase().includes(query) ||
+            q.engineMechanics.toLowerCase().includes(query) ||
+            q.codeSnippet.toLowerCase().includes(query) ||
+            q.outOfTheBoxTwist.toLowerCase().includes(query)
+          ) {
+            matchingQuestions.push({ day, question: q });
+          }
+        });
+        if (matchingQuestions.length >= 30) break; // Keep search ultra-responsive
+      }
+
+      if (matchingQuestions.length === 0) {
+        container.innerHTML = `
+          <div class="card-glass rounded-2xl p-12 text-center space-y-3">
+            <i class="fa-solid fa-magnifying-glass text-slate-500 text-3xl"></i>
+            <h3 class="text-base font-bold text-slate-300">No interview topics matched "${query}"</h3>
+            <p class="text-xs text-slate-500">Try searching for keywords like 'broadcast', 'shuffle', 'skew', 'SCD', 'BigQuery', or 'DAG'.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const resultsHeader = document.createElement('div');
+      resultsHeader.className = "text-xs font-semibold text-indigo-400 uppercase tracking-wider pb-2";
+      resultsHeader.innerHTML = `<i class="fa-solid fa-list-check mr-1.5"></i> Found ${matchingQuestions.length} matching question(s):`;
+      container.appendChild(resultsHeader);
+
+      matchingQuestions.forEach(({ day, question: q }) => {
+        const card = document.createElement('div');
+        card.className = "card-glass rounded-2xl p-5 space-y-3 border border-indigo-500/30";
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Day ${day}</span>
+              <span class="text-xs font-bold text-slate-300">${q.category}</span>
+            </div>
+            <button class="jump-day-btn text-xs font-medium text-indigo-400 hover:text-indigo-300 flex items-center space-x-1" data-day="${day}">
+              <span>Open Day ${day}</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+          <h4 class="text-sm font-bold text-white">${q.title}</h4>
+          <p class="text-xs text-slate-300 line-clamp-2">${q.pitch}</p>
+        `;
+
+        card.querySelector('.jump-day-btn').addEventListener('click', () => {
+          document.getElementById('globalSearchInput').value = '';
+          loadDay(parseInt(day));
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    function setupTimerModal() {
+      const openBtn = document.getElementById('openTimerBtn');
+      const modal = document.getElementById('timerModal');
+      const closeBtn = document.getElementById('closeTimerModalBtn');
+      const startBtn = document.getElementById('startTimerBtn');
+      const resetBtn = document.getElementById('resetTimerBtn');
+      const display = document.getElementById('timerDisplay');
+      const statusLabel = document.getElementById('timerStatusLabel');
+
+      let timerInterval = null;
+      let secondsLeft = 120; // 2 minutes
+
+      function updateDisplay() {
+        const mins = Math.floor(secondsLeft / 60);
+        const secs = secondsLeft % 60;
+        display.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      }
+
+      openBtn.addEventListener('click', () => modal.classList.remove('hidden'));
+      closeBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        clearInterval(timerInterval);
+        timerInterval = null;
+      });
+
+      startBtn.addEventListener('click', () => {
+        if (timerInterval) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          startBtn.textContent = "Resume";
+          statusLabel.textContent = "Paused";
+        } else {
+          startBtn.textContent = "Pause";
+          statusLabel.textContent = "00:00 - 00:30: State the 30-second crisp definition!";
+          timerInterval = setInterval(() => {
+            if (secondsLeft > 0) {
+              secondsLeft--;
+              updateDisplay();
+              if (secondsLeft === 90) statusLabel.textContent = "00:30 - 01:15: Dive into under-the-hood engine mechanics!";
+              if (secondsLeft === 45) statusLabel.textContent = "01:15 - 01:45: Provide a 10-second real-world example with numbers!";
+              if (secondsLeft === 15) statusLabel.textContent = "01:45 - 02:00: Call out the senior edge-case trap!";
+            } else {
+              clearInterval(timerInterval);
+              timerInterval = null;
+              startBtn.textContent = "Start Timer";
+              statusLabel.textContent = "Time's up! Perfect 2-minute answer.";
+              showToast("Timer finished! Great mock answer drill.", "fa-stopwatch");
+            }
+          }, 1000);
+        }
+      });
+
+      resetBtn.addEventListener('click', () => {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        secondsLeft = 120;
+        updateDisplay();
+        startBtn.textContent = "Start Timer";
+        statusLabel.textContent = "Ready to Speak";
+      });
+    }
+
+    function setupSyllabusModal() {
+      const openBtn = document.getElementById('syllabusModalBtn');
+      const modal = document.getElementById('syllabusModal');
+      const closeBtn = document.getElementById('closeSyllabusModalBtn');
+      const content = document.getElementById('syllabusModalContent');
+
+      openBtn.addEventListener('click', () => {
+        content.innerHTML = '';
+        
+        const weeks = [
+          { week: 1, month: 1, title: "Week 1 — SQL + Python + Data Engineering Fundamentals (Days 1–7)" },
+          { week: 2, month: 1, title: "Week 2 — Advanced SQL + Warehousing Deep Dive (Days 8–14)" },
+          { week: 3, month: 1, title: "Week 3 — Spark + PySpark Core Foundations (Days 15–21)" },
+          { week: 4, month: 1, title: "Week 4 — BigQuery + GCP Core Services (Days 22–28)" },
+          { week: 5, month: 2, title: "Week 5 — Advanced PySpark (Execution, Skew, Catalyst) (Days 29–35)" },
+          { week: 6, month: 2, title: "Week 6 — Data Modeling + Dimensional Warehousing (Days 36–42)" },
+          { week: 7, month: 2, title: "Week 7 — ETL/ELT + Incremental Processing (CDC, dbt) (Days 43–49)" },
+          { week: 8, month: 2, title: "Week 8 — Python for Data Engineering (OOP, Concurrency) (Days 50–56)" },
+          { week: 9, month: 3, title: "Week 9 — GCP Deep Dive (BigQuery Slots, Dataplex, IAM) (Days 57–63)" },
+          { week: 10, month: 3, title: "Week 10 — Streaming (Kafka, Pub/Sub, Dataflow Beam) (Days 64–70)" },
+          { week: 11, month: 3, title: "Week 11 — Data Lakehouse (Delta, Iceberg, BigLake) (Days 71–77)" },
+          { week: 12, month: 3, title: "Week 12 — High-Scale System Design Scenarios (Days 78–84)" },
+          { week: 13, month: 4, title: "Week 13 — SQL + BigQuery Production Triage (Days 85–91)" },
+          { week: 14, month: 4, title: "Week 14 — Spark Production Incidents (OOM, Spill) (Days 92–98)" },
+          { week: 15, month: 4, title: "Week 15 — Airflow & GCP Composer Failures (Days 99–105)" },
+          { week: 16, month: 4, title: "Week 16 — Final Interview Simulation & Live Coding (Days 106–112)" }
+        ];
+
+        weeks.forEach(w => {
+          const weekCard = document.createElement('div');
+          weekCard.className = "bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2";
+          
+          let dayLinks = '';
+          const start = (w.week - 1) * 7 + 1;
+          const end = w.week * 7;
+          for (let d = start; d <= end; d++) {
+            const isMastered = isDayFullyMastered(d);
+            dayLinks += `
+              <button class="syllabus-day-jump px-2.5 py-1 rounded bg-slate-900 hover:bg-indigo-600 text-slate-300 hover:text-white transition font-mono text-[11px] flex items-center space-x-1" data-day="${d}">
+                <span>Day ${d}</span>
+                ${isMastered ? '<i class="fa-solid fa-check text-[9px] text-emerald-400"></i>' : ''}
+              </button>
+            `;
+          }
+
+          weekCard.innerHTML = `
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-indigo-300 text-xs">${w.title}</span>
+              <span class="text-[10px] text-slate-500 font-semibold uppercase">Month ${w.month}</span>
+            </div>
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              ${dayLinks}
+            </div>
+          `;
+
+          weekCard.querySelectorAll('.syllabus-day-jump').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const day = parseInt(btn.getAttribute('data-day'));
+              modal.classList.add('hidden');
+              loadDay(day);
+            });
+          });
+
+          content.appendChild(weekCard);
+        });
+
+        modal.classList.remove('hidden');
+      });
+
+      closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+    }
+  </script>
+</body>
+</html>
